@@ -1,0 +1,7 @@
+# Core Django framework
+django>=4.0,<5.0
+
+# Otras dependencias comunes
+# Usaremos django-environ para la configuración del entorno y psycopg2 para PostgreSQL, si planeas usar esa base de datos.
+django-environ  # Configuración de variables de entorno
+psycopg2  # PostgreSQL; omítelo si planeas usar SQLite
