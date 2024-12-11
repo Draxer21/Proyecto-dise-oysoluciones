@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargas Familiares</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    {% load static %}
+
+    <style>
+        /* Empujar footer hacia abajo */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        footer p {
+            margin: 0;
+        }
+
+        .btn-danger {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #343a40; padding: 1em 0;">
+        <div class="container">
+            <img src="{% static 'images/logo.webp' %}" alt="Logotipo" style="max-width: 50px; margin-right: 10px;">
+            <a class="navbar-brand" href="/"><i class="bi bi-house-door"></i> Inicio</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'empleado-list' %}"><i class="bi bi-people"></i> Lista de Empleados</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}"><i class="bi bi-tools"></i> Panel de Administración</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'empleado-perfil' pk=user.empleado.pk %}">
+                            <i class="bi bi-person-circle"></i> Mi Perfil
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link nav-link" style="color: white; padding: 0; text-decoration: none;">
+                                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                            </button>
+                        </form>
+                    </li>
+                    {% endif %}
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container mt-5 content">
+        <h1 class="mb-4"><i class="bi bi-people-fill"></i> Cargas Familiares</h1>
+        <a href="{% url 'agregar_carga_familiar' empleado.id %}" class="btn btn-success mb-3">
+            <i class="bi bi-person-plus"></i> Agregar Carga Familiar
+        </a>
+        <table class="table table-striped table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Parentesco</th>
+                    <th>Rut</th>
+                    <th class="text-center">Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for carga in cargas %}
+                <tr>
+                    <td>{{ carga.nombre }}</td>
+                    <td>{{ carga.parentesco }}</td>
+                    <td>{{ carga.rut }}</td>
+                    <td class="text-center">
+                        <a href="{% url 'editar_carga_familiar' carga.id %}" class="btn btn-primary btn-sm">
+                            <i class="bi bi-pencil-square"></i> Editar
+                        </a>
+                        <a href="{% url 'eliminar_carga_familiar' carga.id %}" class="btn btn-danger btn-sm">
+                            <i class="bi bi-trash"></i> Eliminar
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="text-center">No se encontraron cargas familiares.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Sistema de Gestión de Empleados. Todos los derechos reservados.</p>
+        <p>
+            <i class="bi bi-telephone-fill"></i> Teléfono: +56 9 5011 7527 |
+            <i class="bi bi-envelope-fill"></i> Email: <a href="mailto:contacto@elcorreodeyury.com" style="color: #0d6efd;">contacto@elcorreodeyury.com</a> |
+            <i class="bi bi-geo-alt-fill"></i> Dirección: Avenida Observatorio 1934, Santiago, Chile
+        </p>
+    </footer>
+
+    <!-- Enlace a Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

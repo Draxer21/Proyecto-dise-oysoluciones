@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Empleados</title>
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #343a40; padding: 1em 0;">
+        <div class="container">
+            <img src="{% static 'images/logo.webp' %}" alt="Logotipo" style="max-width: 100px; margin-right: 10px;">
+            <a class="navbar-brand" href="/">Inicio</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'empleado-list' %}"><i class="bi bi-people"></i> Lista de Empleados</a>
+                    </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'empleado-perfil' pk=user.empleado.pk %}">
+                            <i class="bi bi-person-circle"></i> Perfil
+                        </a>
+                    </li>
+                    
+                    {% endif %}
+                    {% if user.is_superuser or user.is_staff %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="#" data-toggle="modal" data-target="#soporteModal"><i class="bi bi-headset"></i> Soporte</a>
+                    </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link nav-link" style="color: white; padding: 0; text-decoration: none;">
+                                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                            </button>
+                        </form>
+                    </li>
+                    
+                </ul>
+            </div>
+        </div>
+    </nav>
+{% csrf_token %}
+    <div class="container mt-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h1>Lista de Empleados</h1>
+            <a href="{% url 'empleado-create' %}" class="btn btn-success">
+                <i class="bi bi-person-plus"></i> Agregar Empleado
+            </a>
+        </div>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre Completo</th>
+                    <th>RUT</th>
+                    <th>Sexo</th>
+                    <th>Cargo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for empleado in empleados %}
+                <tr>
+                    <td>{{ empleado.nombre_completo }}</td>
+                    <td>{{ empleado.rut }}-{{ empleado.digito_verificador }}</td>
+                    <td>{{ empleado.get_sexo_display }}</td>
+                    <td>{{ empleado.cargo }}</td>
+                    <td>
+                        <a href="{% url 'empleado-update' empleado.pk %}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i> Editar</a>
+                        <a href="{% url 'empleado-delete' empleado.pk %}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i> Eliminar</a>
+                        <a href="{% url 'listar_cargas_familiares' empleado.pk %}" class="btn btn-info btn-sm"><i class="bi bi-people-fill"></i> Cargas</a>
+                        <a href="{% url 'listar_contactos_emergencia' empleado.pk %}" class="btn btn-warning btn-sm"><i class="bi bi-telephone-fill"></i> Contactos</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal de Soporte -->
+    {% if user.is_superuser or user.is_staff %}
+    <div class="modal fade" id="soporteModal" tabindex="-1" role="dialog" aria-labelledby="soporteModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="soporteModalLabel">Soporte y Contacto</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Cerrar">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <h6>Información de Contacto</h6>
+                    <p><i class="bi bi-telephone-fill"></i> Teléfono: +56 9 5011 7527</p>
+                    <p><i class="bi bi-envelope-fill"></i> Email: <a href="mailto:contacto@elcorreodeyury.com">contacto@elcorreodeyury.com</a></p>
+                    <p><i class="bi bi-geo-alt-fill"></i> Dirección: Avenida Observatorio 1934, Santiago, Chile</p>
+                    <hr>
+                    <h6>Enviar Mensaje</h6>
+                    <form method="post" action="{% url 'enviar-mensaje' %}">
+                        {% csrf_token %}
+                        <div class="form-group">
+                            <textarea class="form-control" name="mensaje" rows="3" placeholder="Escribe tu mensaje aquí..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Enviar</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+
+    <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

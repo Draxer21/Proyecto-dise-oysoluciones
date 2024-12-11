@@ -1,0 +1,105 @@
+/* Estilos generales */
+body {
+    background-image: url('{% static "images/index.png" %}');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    font-family: Arial, sans-serif;
+    color: #ffffff;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+html, body {
+    height: 100%;
+}
+
+h1, h2, p {
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.navbar {
+    background-color: rgba(52, 58, 64, 0.8); /* Fondo semi-transparente */
+    border-bottom: 2px solid #ffffff;
+}
+
+.navbar-brand, .nav-link {
+    color: #ffffff !important;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+}
+
+.nav-link:hover {
+    color: #ffc107 !important; /* Color amarillo al pasar el ratón */
+}
+
+.container {
+    text-align: center;
+    background: rgba(0, 0, 0, 0.6); /* Fondo oscuro translúcido */
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 50px;
+    flex: 1; /* Ocupa el espacio restante */
+}
+
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: #ffffff;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    color: #ffffff;
+    font-size: 1.2em;
+    padding: 10px 20px;
+    border-radius: 5px;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+}
+
+.btn-secondary:hover {
+    background-color: #565e64;
+    border-color: #565e64;
+}
+
+footer {
+    background-color: rgba(52, 58, 64, 0.9);
+    color: #ffffff;
+    padding: 15px 0;
+    text-align: center;
+    font-size: 0.9em;
+    margin-top: auto;
+}
+
+footer p {
+    margin: 0;
+}
+
+/* Responsividad */
+@media (max-width: 768px) {
+    .navbar-brand img {
+        max-width: 40px;
+    }
+
+    .container {
+        margin-top: 20px;
+        padding: 15px;
+    }
+
+    .btn-primary, .btn-secondary {
+        font-size: 1em;
+        padding: 8px 15px;
+    }
+}

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enviar Mensaje</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1>Envíanos un Mensaje</h1>
+        <form method="post" action="{% url 'enviar-mensaje' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="mensaje">Mensaje</label>
+                <textarea class="form-control" name="mensaje" id="mensaje" rows="4" placeholder="Escribe tu mensaje aquí..." required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Enviar Mensaje</button>
+        </form>
+        <a href="/" class="btn btn-secondary mt-3">Volver al Inicio</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil del Empleado</title>
+    {% load static %}
+    <!-- Enlace a Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    <style>
+        /* Empujar el footer hacia abajo */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        footer {
+            background-color: #343a40;
+            color: white;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #343a40; padding: 1em 0;">
+        <div class="container">
+            {% csrf_token %}
+            <img src="{% static 'images/logo.webp' %}" alt="Logotipo" style="max-width: 50px; margin-right: 10px;">
+            <a class="navbar-brand" href="/"><i class="bi bi-house-door"></i> Inicio</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'empleado-list' %}"><i class="bi bi-people"></i> Lista de Empleados</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}"><i class="bi bi-tools"></i> Panel de Administración</a>
+                    </li>
+                    <li class="nav-item">
+                        <form method="post" action="{% url 'logout' %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-link nav-link" style="color: white; padding: 0; text-decoration: none;">
+                                <i class="bi bi-box-arrow-right"></i> Cerrar Sesión
+                            </button>
+                        </form>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Perfil del Empleado -->
+    <div class="container mt-5 content">
+        <h2><i class="bi bi-person-circle"></i> Perfil de {{ empleado.nombre_completo }}</h2>
+        <div class="card mt-4">
+            <div class="card-body">
+                <p><i class="bi bi-card-text"></i> <strong>RUT:</strong> {{ empleado.rut }}-{{ empleado.digito_verificador }}</p>
+                <p><i class="bi bi-gender-ambiguous"></i> <strong>Sexo:</strong> {{ empleado.get_sexo_display }}</p>
+                <p><i class="bi bi-geo-alt"></i> <strong>Dirección:</strong> {{ empleado.direccion }}</p>
+                <p><i class="bi bi-telephone"></i> <strong>Teléfono:</strong> {{ empleado.telefono }}</p>
+                <p><i class="bi bi-briefcase"></i> <strong>Cargo:</strong> {{ empleado.cargo }}</p>
+            </div>
+        </div>
+        <a href="{% url 'empleado-perfil-editar' %}" class="btn btn-primary mt-4">
+            <i class="bi bi-pencil-square"></i> Editar Perfil
+        </a>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2024 Sistema de Gestión de Empleados. Todos los derechos reservados.</p>
+        <p>
+            <i class="bi bi-telephone-fill"></i> Teléfono: +56 9 5011 7527 |
+            <i class="bi bi-envelope-fill"></i> Email: <a href="mailto:contacto@elcorreodeyury.com" style="color: #0d6efd;">contacto@elcorreodeyury.com</a> |
+            <i class="bi bi-geo-alt-fill"></i> Dirección: Avenida Observatorio 1934, Santiago, Chile
+        </p>
+    </footer>
+
+    <!-- Enlace a Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

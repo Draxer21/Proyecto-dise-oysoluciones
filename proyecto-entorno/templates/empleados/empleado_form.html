@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formulario de Empleado</title>
+    {% load static %}
+
+    <style>
+        /* Estructura para empujar el footer */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .content {
+            flex: 1;
+        }
+
+        footer {
+            background-color: rgba(52, 58, 64, 0.9);
+            color: #ffffff;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 0.9em;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+
+    <!-- Enlace a Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+</head>
+<body>
+    <!-- Barra de navegación -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #343a40; padding: 1em 0;">
+        <div class="container">
+            <img src="{% static 'images/logo.webp' %}" alt="Logotipo" style="max-width: 100px; margin-right: 10px;">
+            <a class="navbar-brand" href="/"><i class="bi bi-house-door"></i> Inicio</a>
+            <div class="collapse navbar-collapse">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'empleado-list' %}"><i class="bi bi-people"></i> Lista de Empleados</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}"><i class="bi bi-tools"></i> Panel de Administración</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contenido principal -->
+    <div class="container mt-5 content">
+        <h2 style="text-align: center;"><i class="bi bi-person-plus"></i> {{ view.action|default_if_none:"Nuevo" }} Empleado</h2>
+        <form method="post" class="mt-4">
+            {% csrf_token %}
+            <table class="table table-bordered">
+                <tbody>
+                    {% for field in form %}
+                        <tr>
+                            <th>{{ field.label_tag }}</th>
+                            <td>{{ field }}</td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="text-center mt-3">
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-save"></i> Guardar
+                </button>
+                <a href="{% url 'empleado-list' %}" class="btn btn-secondary">
+                    <i class="bi bi-arrow-left"></i> Volver a la Lista
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container text-center">
+            <p class="mb-1"><i class="bi bi-shield-lock"></i> &copy; 2024 El Correo de Yury. Todos los derechos reservados.</p>
+            <p class="mb-1">
+                <i class="bi bi-telephone-fill"></i> Teléfono: +56 9 5011 7527 |
+                <i class="bi bi-envelope-fill"></i> Email: <a href="mailto:contacto@elcorreodeyury.com" style="color: #0d6efd;">contacto@elcorreodeyury.com</a> |
+                <i class="bi bi-geo-alt-fill"></i> Dirección: Avenida Observatorio 1934, Santiago, Chile
+            </p>
+        </div>
+    </footer>
+
+    <!-- Enlace a Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

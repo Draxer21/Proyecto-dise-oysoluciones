@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.10.5/font/bootstrap-icons.min.css">
+    {% load static %}
+
+    <style>
+        body {
+            background-image: url('{% static "images/index.png" %}');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            font-family: Arial, sans-serif;
+            color: #ffffff;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        html, body {
+            height: 100%;
+        }
+
+        h1, h2, p {
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .navbar {
+            background-color: rgba(52, 58, 64, 0.8);
+            border-bottom: 2px solid #ffffff;
+        }
+
+        .navbar-brand, .nav-link {
+            color: #ffffff !important;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+        }
+
+        .nav-link:hover {
+            color: #ffc107 !important;
+        }
+
+        .content {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 30px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+
+        .btn-primary, .btn-secondary, .btn-warning {
+            font-size: 1.2em;
+            padding: 10px 20px;
+            border-radius: 5px;
+            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+        }
+
+        footer {
+            background-color: rgba(52, 58, 64, 0.9);
+            color: #ffffff;
+            padding: 15px 0;
+            text-align: center;
+            font-size: 0.9em;
+            margin-top: auto;
+        }
+
+        footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="{% static 'images/logo.webp' %}" alt="Logotipo" style="max-width: 100px; margin-right: 10px;">
+                El Correo de Yury
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'empleado-list' %}"><i class="bi bi-people"></i> Lista de Empleados</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'admin:index' %}"><i class="bi bi-tools"></i> Panel de Administración</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'login' %}"><i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="content">
+        <div>
+            <h1 class="mb-4">Bienvenido a El Correo de Yury</h1>
+            <p class="lead">Administra a los empleados de la empresa desde aquí.</p>
+            <a href="{% url 'empleado-list' %}" class="btn btn-primary mt-3"><i class="bi bi-list"></i> Lista de Empleados</a>
+        </div>
+    </div>
+
+    <footer class="footer mt-auto py-3" style="background-color: rgba(52, 58, 64, 0.9); color: white;">
+        <div class="container text-center">
+            <p class="mb-1"><i class="bi bi-shield-lock"></i> &copy; 2024 El Correo de Yury. Todos los derechos reservados.</p>
+            <p class="mb-1">
+                <i class="bi bi-telephone-fill"></i> Teléfono: +56 9 5011 7527 |
+                <i class="bi bi-envelope-fill"></i> Email: <a href="mailto:contacto@elcorreodeyury.com" style="color: #0d6efd;">contacto@elcorreodeyury.com</a> |
+                <i class="bi bi-geo-alt-fill"></i> Dirección: Avenida Observatorio 1934, Santiago, Chile
+            </p>
+            {% csrf_token %}
+        </div>
+    </footer>
+    
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
